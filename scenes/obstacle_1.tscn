@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=3 uid="uid://dnucv8c86oe5v"]
+
+[ext_resource type="Script" path="res://scripts/obstacle.gd" id="1_70x3g"]
+[ext_resource type="Shader" path="res://shaders/outline.gdshader" id="1_k8b3t"]
+[ext_resource type="Script" path="res://scripts/linear_obstacle_controller.gd" id="1_m1pyf"]
+[ext_resource type="Script" path="res://scripts/obstacle_area_3d.gd" id="3_cqt4h"]
+
+[sub_resource type="Gradient" id="Gradient_apt02"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0.713726, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6lkpe"]
+gradient = SubResource("Gradient_apt02")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0.00495049)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyabd"]
+render_priority = 0
+shader = ExtResource("1_k8b3t")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ynp2h"]
+next_pass = SubResource("ShaderMaterial_eyabd")
+albedo_texture = SubResource("GradientTexture2D_6lkpe")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ran1q"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_o46q8"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
+[node name="Obstacle1" type="Node3D"]
+script = ExtResource("1_70x3g")
+
+[node name="TopOrigin" type="Node3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TopOrigin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_ynp2h")
+mesh = SubResource("BoxMesh_ran1q")
+
+[node name="Area3D" type="Area3D" parent="TopOrigin/MeshInstance3D"]
+script = ExtResource("3_cqt4h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TopOrigin/MeshInstance3D/Area3D"]
+shape = SubResource("ConvexPolygonShape3D_o46q8")
+
+[node name="BottomOrigin" type="Node3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 5, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BottomOrigin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, 0)
+material_override = SubResource("StandardMaterial3D_ynp2h")
+mesh = SubResource("BoxMesh_ran1q")
+
+[node name="Area3D" type="Area3D" parent="BottomOrigin/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BottomOrigin/MeshInstance3D/Area3D"]
+shape = SubResource("ConvexPolygonShape3D_o46q8")
+
+[node name="LinearObstacleController" type="Node" parent="."]
+script = ExtResource("1_m1pyf")
