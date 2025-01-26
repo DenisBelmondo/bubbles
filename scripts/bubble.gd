@@ -1,7 +1,6 @@
 extends MeshInstance3D
 
 
-signal ready_again
 signal popped
 
 
@@ -69,17 +68,15 @@ func try_inflate() -> void:
 	await _make_inflation_tween(inflation_addend).finished
 
 	_state = State.READY
-	ready_again.emit()
 
 
 func try_deflate() -> void:
-	if _state != State.READY:
+	if not _can_change_size():
 		return
 
 	_state = State.DEFLATING
 	_audio.play_stream(preload('res://sounds/deflate_1.ogg'), 0, -10)
 
-	await _make_inflation_tween(-deflation_subtrahend * float(scale.x > deflation_subtrahend)).finished
+	await _make_inflation_tween(-deflation_subtrahend).finished
 
 	_state = State.READY
-	ready_again.emit()

@@ -32,32 +32,32 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	var dt := delta * DELTA_MULTIPLIER
 	var move := _axis
-	var can_move: float = _bubble._state != Bubble.State.POPPING
+
+	if _bubble._state == Bubble.State.POPPING:
+		return
 
 	move = move.normalized()
 	move *= 0.05
 	move *= dt
-	move *= can_move
 	_bubble_velocity += move
-	_bubble_velocity *= can_move
 	_bubble.global_position += Vector3(_bubble_velocity.x, _bubble_velocity.y, 0)
 	_bubble_velocity.x *= float(absf(_bubble.global_position.x) < 8)
 	_bubble_velocity.y *= float(absf(_bubble.global_position.y) < 5)
 	_bubble.global_position.x = clampf(_bubble.global_position.x, -8, 5)
 	_bubble.global_position.y = clampf(_bubble.global_position.y, -8, 5)
 	_bubble_velocity = _bubble_velocity.lerp(Vector2.ZERO, delta * 2.0)
-	_bubble_velocity *= can_move
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _bubble._state != Bubble.State.READY:
+		return
+
 	if event.is_pressed() and not event.is_echo():
 		if event.is_action(&'inflate'):
 			_bubble.try_inflate()
-			await _bubble.ready_again
 			increase_asset_price()
 		elif event.is_action(&'deflate'):
 			_bubble.try_deflate()
-			await _bubble.ready_again
 			decrease_asset_price()
 
 
