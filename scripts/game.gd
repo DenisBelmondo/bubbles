@@ -20,3 +20,4 @@ var players: Array[Player]
 
 func _init() -> void:
 	players.resize(2)
+	players.fill(Player.new())

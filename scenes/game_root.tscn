@@ -1,8 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxk6sejmsnrdr"]
+[gd_scene load_steps=7 format=3 uid="uid://bxk6sejmsnrdr"]
 
 [ext_resource type="Script" path="res://scripts/game_root.gd" id="1_6g7pf"]
 [ext_resource type="PackedScene" uid="uid://gtl1cg846vrc" path="res://scenes/office.tscn" id="2_bu3a3"]
 [ext_resource type="AudioStream" uid="uid://ddjbflkamov3q" path="res://sounds/music.ogg" id="5_53esl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ncdj"]
+font_size = 128
+shadow_size = 8
+shadow_color = Color(0, 0, 0.509804, 0.784314)
+shadow_offset = Vector2(4, 4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ovyy"]
+font_size = 72
+font_color = Color(0.12549, 0.133333, 0.192157, 1)
+outline_size = 8
+outline_color = Color(1, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7tos4"]
+font_size = 32
 
 [node name="GameRoot" type="Node"]
 script = ExtResource("1_6g7pf")
@@ -40,3 +55,77 @@ unique_name_in_owner = true
 stream = ExtResource("5_53esl")
 autoplay = true
 parameters/looping = true
+
+[node name="QuarterLabel" type="Label" parent="."]
+offset_right = 174.0
+offset_bottom = 175.0
+text = "Q1"
+label_settings = SubResource("LabelSettings_4ncdj")
+
+[node name="QuarterTopLeft" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 174.0
+offset_bottom = 175.0
+
+[node name="QuarterCenter" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.424
+anchor_top = 0.365
+anchor_right = 0.424
+anchor_bottom = 0.365
+offset_left = 0.551971
+offset_top = -0.0200043
+offset_right = 174.552
+offset_bottom = 174.98
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TimeLabel" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_4ovyy")
+horizontal_alignment = 1
+
+[node name="QuarterTallyRoot" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="QuarterTallyRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuarterTallyRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="OffshoreAccountLabel" type="Label" parent="QuarterTallyRoot/VBoxContainer"]
+layout_mode = 2
+text = "Funds deposited into offshore account: __AMOUNT__"
+label_settings = SubResource("LabelSettings_7tos4")
+horizontal_alignment = 1
