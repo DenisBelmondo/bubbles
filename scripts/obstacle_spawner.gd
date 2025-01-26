@@ -6,7 +6,6 @@ var _current_obstacle: Node
 
 
 func _ready() -> void:
-	spawn_obstacle()
 	_spawn_timer.timeout.connect(spawn_obstacle)
 
 
@@ -14,7 +13,11 @@ func spawn_obstacle() -> void:
 	if _current_obstacle:
 		_current_obstacle.queue_free()
 
-	var obstacle := preload('res://scenes/obstacle_1.tscn').instantiate()
+	var obstacle: Node3D = preload('res://scenes/obstacle_1.tscn').instantiate()
 
 	add_child.call_deferred(obstacle)
+
+	await get_tree().process_frame
+
+	obstacle.global_position.y += randf_range(-4, 4)
 	_current_obstacle = obstacle

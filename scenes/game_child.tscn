@@ -1,0 +1,152 @@
+[gd_scene load_steps=16 format=3 uid="uid://bhfmhckmqg4c6"]
+
+[ext_resource type="Script" path="res://scripts/game_child.gd" id="1_bsr3i"]
+[ext_resource type="Texture2D" uid="uid://cct4xriw8wp75" path="res://textures/bubble.png" id="1_x42dl"]
+[ext_resource type="Script" path="res://scripts/bubble.gd" id="2_v7nvy"]
+[ext_resource type="Script" path="res://scripts/obstacle_spawner.gd" id="3_r8aj0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c83yd"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_vu4aa"]
+sky_material = SubResource("ProceduralSkyMaterial_c83yd")
+
+[sub_resource type="Environment" id="Environment_aawj2"]
+background_mode = 2
+sky = SubResource("Sky_vu4aa")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kt82l"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+albedo_texture = ExtResource("1_x42dl")
+
+[sub_resource type="QuadMesh" id="QuadMesh_s8ibb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mgwq8"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_hq20j"]
+
+[sub_resource type="Shader" id="Shader_pns6j"]
+code = "shader_type canvas_item;
+
+uniform sampler2D overlay;
+varying vec2 vertex_pos;
+
+void vertex() {
+	vertex_pos = VERTEX;
+}
+
+void fragment() {
+	vec2 tex_size = vec2(textureSize(overlay, 0));
+	vec2 real_uv = vertex_pos / tex_size;
+
+	COLOR.rgb *= texture(overlay, real_uv).rgb;
+}
+"
+
+[sub_resource type="Gradient" id="Gradient_syosj"]
+offsets = PackedFloat32Array(0.45082, 0.696721)
+colors = PackedColorArray(1, 0.729412, 0, 1, 0.989824, 1, 0.756124, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_doxus"]
+gradient = SubResource("Gradient_syosj")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0.00537634, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d65km"]
+shader = SubResource("Shader_pns6j")
+shader_parameter/overlay = SubResource("GradientTexture2D_doxus")
+
+[node name="GameChild" type="Node"]
+script = ExtResource("1_bsr3i")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="3DWorld" type="Node3D" parent="SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport/3DWorld"]
+environment = SubResource("Environment_aawj2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/3DWorld"]
+
+[node name="Bubble" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/3DWorld"]
+unique_name_in_owner = true
+material_override = SubResource("StandardMaterial3D_kt82l")
+mesh = SubResource("QuadMesh_s8ibb")
+script = ExtResource("2_v7nvy")
+
+[node name="Area3D" type="Area3D" parent="SubViewportContainer/SubViewport/3DWorld/Bubble"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/3DWorld/Bubble/Area3D"]
+shape = SubResource("SphereShape3D_mgwq8")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport/3DWorld/Bubble"]
+stream = SubResource("AudioStreamPolyphonic_hq20j")
+autoplay = true
+
+[node name="ObstacleSpawner" type="Node3D" parent="SubViewportContainer/SubViewport/3DWorld"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+script = ExtResource("3_r8aj0")
+
+[node name="SpawnTimer" type="Timer" parent="SubViewportContainer/SubViewport/3DWorld/ObstacleSpawner"]
+wait_time = 6.0
+autostart = true
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/3DWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+projection = 1
+size = 10.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = 0.538
+anchor_right = 0.538
+offset_left = 0.223938
+offset_right = 514.224
+offset_bottom = 94.0
+color = Color(0, 0, 0, 0.447059)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.553819
+anchor_right = 1.0
+anchor_bottom = 0.145062
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="AssetPriceLabel" type="RichTextLabel" parent="VBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_d65km")
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Asset Price:"
+fit_content = true
+
+[node name="OffshoreAccountLabel" type="RichTextLabel" parent="VBoxContainer"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_d65km")
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Offshore Account:"
+fit_content = true
