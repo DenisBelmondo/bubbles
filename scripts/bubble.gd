@@ -55,7 +55,7 @@ func _make_inflation_tween(target_uniform_scale: float) -> Tweener:
 func _can_change_size() -> bool:
 	var scale_len_2 := scale.length_squared()
 
-	return _state == State.READY and scale_len_2 >= 0.1 and scale_len_2 <= 10.0
+	return _state == State.READY and scale_len_2 >= 0.5 and scale_len_2 <= 10.0
 
 
 func try_inflate() -> void:
@@ -71,7 +71,7 @@ func try_inflate() -> void:
 
 
 func try_deflate() -> void:
-	if not _can_change_size():
+	if _state != State.READY:
 		return
 
 	_state = State.DEFLATING
