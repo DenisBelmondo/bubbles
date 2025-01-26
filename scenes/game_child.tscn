@@ -1,9 +1,35 @@
-[gd_scene load_steps=16 format=3 uid="uid://bhfmhckmqg4c6"]
+[gd_scene load_steps=19 format=3 uid="uid://bhfmhckmqg4c6"]
 
 [ext_resource type="Script" path="res://scripts/game_child.gd" id="1_bsr3i"]
 [ext_resource type="Texture2D" uid="uid://cct4xriw8wp75" path="res://textures/bubble.png" id="1_x42dl"]
 [ext_resource type="Script" path="res://scripts/bubble.gd" id="2_v7nvy"]
 [ext_resource type="Script" path="res://scripts/obstacle_spawner.gd" id="3_r8aj0"]
+
+[sub_resource type="Shader" id="Shader_fjq26"]
+code = "shader_type canvas_item;
+
+const int CELL_SIZE = 32;
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	float time_10 = TIME * 10.0;
+
+	if (int(FRAGCOORD.x - time_10) % CELL_SIZE == 0 || int(FRAGCOORD.y - time_10) % CELL_SIZE == 0) {
+		COLOR.rgb = vec3(0, 0.5, 0);
+	}
+}
+
+//void light() {
+	// Called for every pixel for every light affecting the CanvasItem.
+	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2lsv5"]
+shader = SubResource("Shader_fjq26")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c83yd"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,6 +43,9 @@ background_mode = 2
 sky = SubResource("Sky_vu4aa")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="World3D" id="World3D_fsiwv"]
+environment = SubResource("Environment_aawj2")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kt82l"]
 resource_local_to_scene = true
@@ -64,6 +93,15 @@ shader_parameter/overlay = SubResource("GradientTexture2D_doxus")
 [node name="GameChild" type="Node"]
 script = ExtResource("1_bsr3i")
 
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2lsv5")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,6 +111,7 @@ grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+world_3d = SubResource("World3D_fsiwv")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
@@ -117,18 +156,23 @@ size = 10.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = -1
-anchor_left = 0.538
-anchor_right = 0.538
-offset_left = 0.223938
-offset_right = 514.224
-offset_bottom = 94.0
+anchor_left = 0.542
+anchor_top = 0.099
+anchor_right = 0.986
+anchor_bottom = 0.244
+offset_left = -0.384033
+offset_top = -0.152008
+offset_right = 2.12793
+offset_bottom = -0.112015
 color = Color(0, 0, 0, 0.447059)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = -1
-anchor_left = 0.553819
-anchor_right = 1.0
+anchor_left = 0.555556
+anchor_right = 0.944444
 anchor_bottom = 0.145062
+offset_top = 64.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
@@ -149,4 +193,28 @@ layout_mode = 2
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "Offshore Account:"
+fit_content = true
+
+[node name="TextureRect" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_top = 0.889
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.0720215
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TextureRect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[color=green]ASDF +1.2%[/color]|[color=green]ZCXV +3.3%[/color]|[color=red]DFGH -3.2%[/color]|[color=green]BLAH +9.9%[/color]|[color=red]UIOP -4.3%[/color]|[color=red]CBVN -1.1%[/color]"
 fit_content = true
