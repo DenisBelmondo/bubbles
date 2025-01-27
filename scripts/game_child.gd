@@ -54,11 +54,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_pressed() and not event.is_echo():
 		if event.is_action(&'inflate'):
-			_bubble.try_inflate()
 			increase_asset_price()
+			await _bubble.try_inflate()
 		elif event.is_action(&'deflate'):
-			_bubble.try_deflate()
 			decrease_asset_price()
+			await _bubble.try_deflate()
 
 
 func _punch(label: Control) -> void:
@@ -66,8 +66,9 @@ func _punch(label: Control) -> void:
 				.set_trans(Tween.TRANS_BOUNCE)
 				.tween_property(label, ^'scale', Vector2.ONE * 1.1, 0.05)
 				.finished)
-	(get_tree().create_tween()
-			.tween_property(label, ^'scale', Vector2.ONE, 0.05))
+	await (get_tree().create_tween()
+			.tween_property(label, ^'scale', Vector2.ONE, 0.05)
+			.finished)
 
 
 func calculate_random_cents() -> float:

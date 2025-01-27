@@ -45,7 +45,9 @@ func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
 	_audio.play_stream(preload('res://sounds/bubble_1.ogg'), 0, -5)
 	await get_tree().create_tween().tween_property(self, ^'scale', Vector3.ONE  * 1.0, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC).finished
-	_state = State.READY
+
+	if _state != State.POPPING:
+		_state = State.READY
 
 
 func _make_inflation_tween(target_uniform_scale: float) -> Tweener:
@@ -67,7 +69,8 @@ func try_inflate() -> void:
 
 	await _make_inflation_tween(inflation_addend).finished
 
-	_state = State.READY
+	if _state != State.POPPING:
+		_state = State.READY
 
 
 func try_deflate() -> void:
@@ -79,4 +82,5 @@ func try_deflate() -> void:
 
 	await _make_inflation_tween(-deflation_subtrahend).finished
 
-	_state = State.READY
+	if _state != State.POPPING:
+		_state = State.READY

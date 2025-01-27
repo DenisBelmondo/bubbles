@@ -8,7 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b33dn"]
 shader = ExtResource("2_t18c6")
-shader_parameter/sigma = 2.629
+shader_parameter/sigma = 3.3
 
 [sub_resource type="LabelSettings" id="LabelSettings_ub3s4"]
 font_color = Color(0, 0, 0, 1)
@@ -109,19 +109,26 @@ theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Control/MsWord/ColorRect/ColorRect/MarginContainer"]
+[node name="InstructionsLabel" type="Label" parent="SubViewportContainer/SubViewport/Control/MsWord/ColorRect/ColorRect/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "You are a hot-shit schmoozer at some fortune xyz company
 pumping the latest greatest... whatever.
 
 Your <SPACEBAR> pumps more speculative value into your
-stock, some of the payoff from which gets deposited straight
+stock, creating a bigger and bigger bubble.
+
+The payoff from which gets deposited straight
 into your Swiss bank account.
 
-Be careful though. The bubble could pop at any moment. To
+Be careful though! The bubble could pop at any moment. To
 avoid obstacles, use your <ARROW KEYS>. To shrink the bubble
-in case of emergency, press the <SHIFT> key."
+in case of emergency, press the <SHIFT> key.
+
+Good luck, scumbag!"
 label_settings = SubResource("LabelSettings_ub3s4")
+visible_characters = 0
+visible_ratio = 0.0
 
 [node name="Ribbon" type="ColorRect" parent="SubViewportContainer/SubViewport/Control/MsWord"]
 layout_mode = 1
