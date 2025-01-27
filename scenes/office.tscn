@@ -1,39 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://gtl1cg846vrc"]
+[gd_scene load_steps=3 format=3 uid="uid://gtl1cg846vrc"]
 
 [ext_resource type="PackedScene" uid="uid://brmh6hm6pydbb" path="res://models/office.glb" id="1_boygc"]
 [ext_resource type="Script" path="res://scripts/office.gd" id="1_kokcp"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o3l0f"]
-
-[sub_resource type="Sky" id="Sky_ynv2r"]
-sky_material = SubResource("ProceduralSkyMaterial_o3l0f")
-process_mode = 1
-radiance_size = 4
-
-[sub_resource type="Environment" id="Environment_8vctg"]
-sky = SubResource("Sky_ynv2r")
-ambient_light_source = 3
-ambient_light_color = Color(0.391871, 0.413963, 0.518545, 1)
-ambient_light_sky_contribution = 0.7
-ambient_light_energy = 2.21
-reflected_light_source = 2
-tonemap_mode = 3
-tonemap_exposure = 0.66
-ssao_radius = 7.0
-ssao_intensity = 0.0
-ssao_detail = 0.0
-ssil_radius = 7.95
-sdfgi_enabled = true
-sdfgi_use_occlusion = true
-sdfgi_bounce_feedback = 0.85
-glow_enabled = true
-fog_enabled = true
-fog_mode = 1
-fog_density = 1.0
-adjustment_enabled = true
-adjustment_brightness = 0.85
-adjustment_contrast = 0.92
-adjustment_saturation = 0.74
 
 [node name="Office" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000631571, 0.0190187, 0.000994921)
@@ -67,6 +35,5 @@ light_energy = 9.0
 spot_angle_attenuation = 0.659755
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_8vctg")
 
 [node name="Office" parent="." instance=ExtResource("1_boygc")]

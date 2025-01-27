@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cswbibqlkp1c2"]
+[gd_scene load_steps=8 format=3 uid="uid://cswbibqlkp1c2"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_3y5gx"]
 [ext_resource type="Texture2D" uid="uid://cyex2k6mjqke" path="res://textures/inflation-elation.png" id="1_j5y07"]
@@ -9,6 +9,9 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b33dn"]
 shader = ExtResource("2_t18c6")
 shader_parameter/sigma = 2.629
+
+[sub_resource type="LabelSettings" id="LabelSettings_ub3s4"]
+font_color = Color(0, 0, 0, 1)
 
 [node name="MainMenu" type="Node"]
 script = ExtResource("1_3y5gx")
@@ -96,6 +99,29 @@ anchor_bottom = 1.0
 offset_left = -8.32004
 offset_top = -8.048
 offset_right = 0.25592
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/Control/MsWord/ColorRect/ColorRect"]
+layout_mode = 1
+offset_right = 64.0
+offset_bottom = 23.0
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Control/MsWord/ColorRect/ColorRect/MarginContainer"]
+layout_mode = 2
+text = "You are a hot-shit schmoozer at some fortune xyz company
+pumping the latest greatest... whatever.
+
+Your <SPACEBAR> pumps more speculative value into your
+stock, some of the payoff from which gets deposited straight
+into your Swiss bank account.
+
+Be careful though. The bubble could pop at any moment. To
+avoid obstacles, use your <ARROW KEYS>. To shrink the bubble
+in case of emergency, press the <SHIFT> key."
+label_settings = SubResource("LabelSettings_ub3s4")
 
 [node name="Ribbon" type="ColorRect" parent="SubViewportContainer/SubViewport/Control/MsWord"]
 layout_mode = 1

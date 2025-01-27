@@ -31,6 +31,8 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2lsv5"]
 shader = SubResource("Shader_fjq26")
 
+[sub_resource type="World3D" id="World3D_fsiwv"]
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c83yd"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -43,9 +45,6 @@ background_mode = 2
 sky = SubResource("Sky_vu4aa")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="World3D" id="World3D_fsiwv"]
-environment = SubResource("Environment_aawj2")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kt82l"]
 resource_local_to_scene = true

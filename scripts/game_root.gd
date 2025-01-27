@@ -109,7 +109,7 @@ func set_state(new_state: State) -> void:
 		await get_tree().create_tween().tween_property(_quarter_tally_root, ^'modulate:a', 0.0, 1.0).finished
 		set_state(State.QUARTER)
 	elif _state == State.END:
-		get_tree().quit()
+		get_tree().change_scene_to_file('res://scenes/win.tscn')
 
 
 func reset() -> void:

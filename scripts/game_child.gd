@@ -92,4 +92,4 @@ func update_asset_price_label() -> void:
 
 
 func update_offshore_account_label() -> void:
-	_offshore_account_label.text = 'Offshore Account: $%.2f' % _offshore_account_amount
+	_offshore_account_label.text = 'Offshore Account: $%.2f' % Game.players[0].offshore_account

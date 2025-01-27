@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://0asbpfdcylhm"]
+
+[sub_resource type="GDScript" id="GDScript_3py30"]
+script/source = "extends Control
+
+
+func _ready() -> void:
+	%Label.text = 'Congratulations, you have made off with so much money in your offshore bank account of dubious legality.'
+	%Label.text += '\\nShareholders everywhere are now buzzing about, throwing piles and piles of money at whatever kind of crap you were peddling earlier.'
+	%Label.text += '\\nEveryone loves you and you are the most important person in the world.'
+
+	await get_tree().create_timer(10.0).timeout
+	get_tree().change_scene_to_file('res://scenes/main_menu.tscn')
+"
+
+[node name="Win" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_3py30")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
